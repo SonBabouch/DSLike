@@ -33,5 +33,29 @@ namespace BP
             // Bit shift index of the layer ==> ~Inverse l'effet donc ici le layer 8,9 et 10 sont ignoré peut egalement faire une struct mais moins opti
             ignoreLayers = ~(1 << 8 | 1 << 9 | 1 << 10);
         }
+
+        public void FollowTarget(float delta)
+        {
+            Vector3 targetPosition = Vector3.Lerp(myTransform.position, targetTransform.position, delta / followSpeed);
+            myTransform.position = targetPosition;
+        }
+
+        public void HandleCameraRotation(float delta, float mouseXInput, float mouseYInput)
+        {
+            lookAngle += (mouseXInput * lookSpeed) / delta;
+            pivotAngle -= (mouseYInput * pivotSpeed / delta);
+            pivotAngle = Mathf.Clamp(pivotAngle, minimumPivot, maximumPivot);
+
+            Vector3 rotation = Vector3.zero;
+            rotation.y = lookAngle;
+            Quaternion targetRotation = Quaternion.Euler(rotation);
+            myTransform.rotation = targetRotation;
+
+            rotation = Vector3.zero;
+            rotation.x = pivotAngle;
+
+            targetRotation = Quaternion.Euler(rotation);
+            cameraPivotTransform.localRotation = targetRotation;
+        }
     }
 }

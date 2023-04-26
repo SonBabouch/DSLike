@@ -14,10 +14,26 @@ namespace BP
         public float mouseY;
 
         PlayerControls inputActions;
+        CameraHandler cameraHandler;
 
         Vector2 movementAmount;
         Vector2 cameraInput;
 
+        private void Awake()
+        {
+            cameraHandler = CameraHandler.singeltonCam;
+        }
+
+        private void FixedUpdate()
+        {
+            float delta = Time.deltaTime;
+
+            if(cameraHandler != null)
+            {
+                cameraHandler.FollowTarget(delta);
+                cameraHandler.HandleCameraRotation(delta, mouseX, mouseY);
+            }
+        }
         public void OnEnable()
         {
             if(inputActions == null)
