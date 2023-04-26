@@ -43,6 +43,7 @@ namespace BP
             moveDirection = cameraObject.forward * inputHandler.verticalAxis;
             moveDirection += cameraObject.right * inputHandler.horizontalAxis;
             moveDirection.Normalize();
+            moveDirection.y = 0f;
 
             float speed = movementSpeed;
             moveDirection *= speed;
